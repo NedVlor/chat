@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
+      
+        // Встановлення з'єднання з сервером
+        // const socket = io('http://localhost:3000'); якщо  бек на іншому порті
+        const socket = io();
+      
+        socket.emit("chanel1", "world");
+
+
+ // Обробник події 'chanel1', яка приходить з сервера
+ socket.on('chanel1', (data) => {
+     console.log(data);
+     // Ваш код для обробки даних тут
+ });
+ socket.on('fresh-users-list', (userList) => {
+     console.log(userList);
+     // Ваш код для обробки даних тут
+ });
+      </script>
+</body>
+</html>
