@@ -80,12 +80,17 @@
             </form>
             <form class="form-start">
                 <div class="title">Please write your username</div>
-                <input type="text">
+                <input type="text" name="username">
                 <button>send</button>
             </form>
         </div>
 
         <script type="module">
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////// Socket /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////    
+
         import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
       
         // Встановлення з'єднання з сервером
@@ -94,22 +99,40 @@
       
         socket.emit("chanel1", "world");
 
+        // Обробник події 'chanel1', яка приходить з сервера
+        socket.on('chanel1', (data) => {
+            console.log(data);
+            // Ваш код для обробки даних тут
+        });
+        socket.on('fresh-users-list', (userList) => {
+            console.log(userList);
+            const userListDOM = document.querySelector('.user-list');
+            console.log(userListDOM);
+            userList.forEach((user)=>{console.log(user.username);
+                userListDOM.innerHTML+= '<div class="user">' + user.username + '</div>';
+            })
+            //userListDOM.innerHTML='hgjhgjh';
+            // Ваш код для обробки даних тут
+        });
 
- // Обробник події 'chanel1', яка приходить з сервера
- socket.on('chanel1', (data) => {
-     console.log(data);
-     // Ваш код для обробки даних тут
- });
- socket.on('fresh-users-list', (userList) => {
-     console.log(userList);
-     const userListDOM=document.querySelector('.user-list');
-     console.log(userListDOM);
-     userList.forEach((user)=>{console.log(user.username);
-        userListDOM.innerHTML+= '<div class="user">' + user.username + '</div>';
-    })
-     //userListDOM.innerHTML='hgjhgjh';
-     // Ваш код для обробки даних тут
- });
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////// other logic ////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+        const formStartDOM = document.querySelector('.form-start');
+        formStartDOM.addEventListener('submit', (event)=>{
+            event.preventDefault();
+            var username = event.target.elements['username'].value;
+            console.log(username)
+
+            socket.emit("set-username", username);
+
+        })
+
+
+
+
       </script>
     </body>
 </html>

@@ -72,6 +72,11 @@ io.on('connection', (socket) => {
         socket.emit('chanel1', 'hello from server')
     });
 
+    socket.on('set-username', (username) => {
+        log(username);
+        // socket.emit('chanel1', 'hello from server')
+    });
+
     socket.on('disconnect', () => {
         log('Користувач від’єднався, ID сокета: ' + socket.id);
         delete connectedSockets[socket.id]; // Очищення сокета зі списку
