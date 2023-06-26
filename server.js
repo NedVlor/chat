@@ -88,6 +88,7 @@ io.on('connection', (socket) => {
         log(message);
         chatHistory.push( {message, username:socket.username, userID:socket.id} );
         socket.emit('refresh-chat-list', chatHistory )
+        socket.broadcast.emit('refresh-chat-list', chatHistory )
         log(chatHistory)
     });
 

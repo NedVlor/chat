@@ -38,6 +38,18 @@ socket.on('fresh-users-list', (userList) => {
     // Ваш код для обробки даних тут
 });
 
+//refresh-chat-list
+socket.on('refresh-chat-list', (history) => {
+    console.log(history);
+    const dialogDOM = document.querySelector('.dialog');
+    console.log(dialogDOM);
+    dialogDOM.innerHTML = '';
+    history.forEach((msg) => {
+         console.log('msg', msg);
+        dialogDOM.innerHTML += '<div class="message">' + msg.username + ' : ' + msg.message + '</div>';
+    })
+});
+
 ///////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// other logic ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
