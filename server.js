@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 let connectedSockets = {};
+const chatHistory = [];
 
 // Функція для отримання списку підключених сокетів
 function getConnectedSockets() {
@@ -81,14 +82,13 @@ io.on('connection', (socket) => {
         log(username);
         connectedSockets[socket.id].username = username;
         socket.emit('fresh-users-list', getConnectedUsers())
-        // socket.emit('chanel1', 'hello from server')
     });
 
     socket.on('message', (message) => {
         log(message);
-        // connectedSockets[socket.id].username = username;
-        // socket.emit('fresh-users-list', getConnectedUsers())
-        // // socket.emit('chanel1', 'hello from server')
+        chatHistory.push( {message, username:socket.username, userID:socket.id} );
+        socket.emit('refresh-chat-list', chatHistory )
+        log(chatHistory)
     });
 
     socket.on('disconnect', () => {
