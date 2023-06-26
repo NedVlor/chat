@@ -1,0 +1,80 @@
+body {
+    background: #101010;
+    color: grey;
+}
+
+.super-wrapper {
+    width: fit-content;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.user-list {
+    background: rgba(128, 128, 128, 0.537);
+    width: 10rem;
+    height: 20rem;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+.user {
+    background: black;
+    color: grey;
+    margin-top: .5rem;
+    border-radius: .5rem;
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.dialog {
+    background: rgba(128, 128, 128, 0.537);
+    width: 20rem;
+    height: 20rem;
+    padding: 1rem;
+}
+
+.user:hover {
+    background: #222;
+    color: white
+}
+
+.form-main {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.form-main fieldset {
+    display: flex;
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.form-main textarea {
+    width: 100%;
+}
+
+.form-main button {
+    margin-left: 1rem;
+}
+
+.form-start {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.form-start title {
+    color: #94c987;
+    font-weight: 500;
+}
+
+.form-start input {
+    width: 100%;
+}
+
+.form-start button {
+    margin-left: 1rem;
+}

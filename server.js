@@ -18,6 +18,11 @@ const port = process.env.PORT || 3000;
 // Включаємо модуль файлової системи для роботи з файлами.
 const fs = require('fs');
 
+// import path utilite
+const path = require('path')
+// create static server
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
 // Запускаємо сервер на попередньо встановленому порту.
 server.listen(port, () => {
     log('Server listening at port %d', port);

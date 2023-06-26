@@ -3,65 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style> 
-            body{background:#101010; color: grey;}
-            .super-wrapper{width: fit-content;}
-            .wrapper{display: flex;}
-    .user-list{
-        background: rgba(128, 128, 128, 0.537);
-        width: 10rem;
-        height: 20rem;
-        padding: 1rem;
-        margin-left: 1rem;
-    }
-    .user{
-        background: black;
-        color: grey;
-        margin-top: .5rem;
-        border-radius: .5rem;
-        padding: .5rem;
-        cursor:pointer;
-    }
-    .dialog{
-        background: rgba(128, 128, 128, 0.537);
-        width: 20rem;
-        height: 20rem;
-        padding: 1rem;
-    }
-    .user:hover{background:#222;color:white}
-    .form-main{
-        display: flex;
-        margin-top: 1rem;
-    }
-    .form-main fieldset{
-        display: flex;
-        width: 100%;
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
-    .form-main textarea{
-        width: 100%;
-    }
-    .form-main button{
-        margin-left: 1rem;
-    }
-    .form-start{
-        display: flex;
-        margin-top: 1rem;
-    }
-    .form-start title{
-        color: #94c987;
-        font-weight: 500;
-    }
-    .form-start input{
-        width: 100%;
-    }
-    .form-start button{
-        margin-left: 1rem;
-    }
-    </style>
         <title>Document</title>
+        <link rel="stylesheet" href="/static/main.css">
     </head>
     <body>
         <div class="super-wrapper">
@@ -84,59 +27,6 @@
                 <button>send</button>
             </form>
         </div>
-
-        <script type="module">
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////// Socket /////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////    
-
-        import { io } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
-      
-        // Встановлення з'єднання з сервером
-        // const socket = io('http://localhost:3000'); якщо  бек на іншому порті
-        const socket = io();
-      
-        socket.emit("chanel1", "world");
-
-        // Обробник події 'chanel1', яка приходить з сервера
-        socket.on('chanel1', (data) => {
-            console.log(data);
-            // Ваш код для обробки даних тут
-        });
-        socket.on('fresh-users-list', (userList) => {
-            console.log(userList);
-            const userListDOM = document.querySelector('.user-list');
-            console.log(userListDOM);
-            userListDOM.innerHTML = '';
-            userList.forEach((user)=>{console.log(user.username);
-                userListDOM.innerHTML+= '<div class="user">' + user.username + '</div>';
-            })
-            // check if the user Anonimous or not and unblock UI
-            console.log(socket.id)
-            const  myself = userList.find(u=>u.id === socket.id)
-            console.log(myself,'myself')
-            if (myself.username!='Anonymous'){
-                const fieldsetDOM=document.querySelector('.form-main fieldset')
-                fieldsetDOM.disabled=false
-            }
-            //userListDOM.innerHTML='hgjhgjh';
-            // Ваш код для обробки даних тут
-        });
-
-        ///////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////// other logic ////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////
-
-        const formStartDOM = document.querySelector('.form-start');
-        formStartDOM.addEventListener('submit', (event)=>{
-            event.preventDefault();
-            var username = event.target.elements['username'].value;
-            console.log(username)
-
-            socket.emit("set-username", username);
-
-        })
-      </script>
+        <script type="module" src="/static/main.js"></script>
     </body>
 </html>
