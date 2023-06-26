@@ -42,12 +42,25 @@ socket.on('fresh-users-list', (userList) => {
 ////////////////////////////////// other logic ////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 
+/*
+    Start form
+*/
 const formStartDOM = document.querySelector('.form-start');
 formStartDOM.addEventListener('submit', (event) => {
     event.preventDefault();
     var username = event.target.elements['username'].value;
     console.log(username)
-
     socket.emit("set-username", username);
+})
 
+/*
+    Main form
+*/
+const formMainDOM = document.querySelector('.form-main');
+formMainDOM.addEventListener('submit', (event) => {
+    event.preventDefault();
+    var message = event.target.elements['message'].value;
+    console.log(message)
+    socket.emit("message", message);
+    formMainDOM.reset()
 })

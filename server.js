@@ -80,8 +80,15 @@ io.on('connection', (socket) => {
     socket.on('set-username', (username) => {
         log(username);
         connectedSockets[socket.id].username = username;
-    socket.emit('fresh-users-list', getConnectedUsers())
+        socket.emit('fresh-users-list', getConnectedUsers())
         // socket.emit('chanel1', 'hello from server')
+    });
+
+    socket.on('message', (message) => {
+        log(message);
+        // connectedSockets[socket.id].username = username;
+        // socket.emit('fresh-users-list', getConnectedUsers())
+        // // socket.emit('chanel1', 'hello from server')
     });
 
     socket.on('disconnect', () => {
