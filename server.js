@@ -63,7 +63,7 @@ function changeConnections(socket) {
 io.on('connection', (socket) => {
     log('connect.....', socket.id);
     socket.username = 'Anonymous';
-    connectedSockets[socket.id] = socket; // add socket(user)to object
+    connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
 
     // При отриманні повідомлення з каналу "chanel1", вивести дані у консоль.
@@ -74,6 +74,8 @@ io.on('connection', (socket) => {
 
     socket.on('set-username', (username) => {
         log(username);
+        connectedSockets[socket.id].username = username;
+    socket.emit('fresh-users-list', getConnectedUsers())
         // socket.emit('chanel1', 'hello from server')
     });
 
