@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 ///////////////////////////////////////// SOCKET /////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-let connectedSockets = {};
+const connectedSockets = {};
 const chatHistory = [];
 
 // Функція для отримання списку підключених сокетів
@@ -60,14 +60,14 @@ function getConnectedUsers() {
 
 // for connection, disconnect  events
 function changeConnections(socket) {
-    log('amount of users', getConnectedSockets().length)
+    //log('amount of users', getConnectedSockets().length)
     socket.broadcast.emit('fresh-users-list', getConnectedUsers())
     socket.emit('fresh-users-list', getConnectedUsers())
-    log(getConnectedUsers())
+    //log(getConnectedUsers())
 }
 // Обробник події з'єднання нового клієнта через Socket.IO
 io.on('connection', (socket) => {
-    log('connect.....', socket.id);
+    //log('connect.....', socket.id);
     socket.username = 'Anonymous';
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
@@ -79,21 +79,25 @@ io.on('connection', (socket) => {
     });
 
     socket.on('set-username', (username) => {
-        log(username);
+        //log(username);
         connectedSockets[socket.id].username = username;
         socket.emit('fresh-users-list', getConnectedUsers())
     });
 
     socket.on('message', (message) => {
-        log(message);
-        chatHistory.push( {message, username:socket.username, userID:socket.id} );
+        //log(message);
+        chatHistory.push( {
+            message, 
+            username: socket.username, 
+            userID:   socket.id
+        } );
         socket.emit('refresh-chat-list', chatHistory )
         socket.broadcast.emit('refresh-chat-list', chatHistory )
-        log(chatHistory)
+        //log(chatHistory)
     });
 
     socket.on('disconnect', () => {
-        log('Користувач від’єднався, ID сокета: ' + socket.id);
+        //log('Користувач від’єднався, ID сокета: ' + socket.id);
         delete connectedSockets[socket.id]; // Очищення сокета зі списку
         changeConnections(socket)
     });

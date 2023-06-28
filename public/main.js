@@ -5,6 +5,7 @@
 import {
     io
 } from "https://cdn.socket.io/4.3.0/socket.io.esm.min.js";
+const log = console.log;
 
 // Встановлення з'єднання з сервером
 // const socket = io('http://localhost:3000'); якщо  бек на іншому порті
@@ -41,11 +42,9 @@ socket.on('fresh-users-list', (userList) => {
 //refresh-chat-list
 socket.on('refresh-chat-list', (history) => {
     console.log(history);
-    const dialogDOM = document.querySelector('.dialog');
-    console.log(dialogDOM);
-    dialogDOM.innerHTML = '';
-    history.forEach((msg) => {
-         console.log('msg', msg);
+    const dialogDOM = document.querySelector('.dialog'); // підєднуємось до блоку в яком виводим повідмлення
+    dialogDOM.innerHTML = ''; // очищуєм цей блок
+    history.forEach((msg) => { // перебираючи історію повідомлень, наповнюєм цей блок повідомленнями
         dialogDOM.innerHTML += '<div class="message">' + msg.username + ' : ' + msg.message + '</div>';
     })
 });
@@ -76,3 +75,10 @@ formMainDOM.addEventListener('submit', (event) => {
     socket.emit("message", message);
     formMainDOM.reset()
 })
+
+ document.querySelector('.room-list').addEventListener('click', (event) => {
+    log(event.target.name)
+ })
+function setRoom(room) {
+    console.log(room)
+}
