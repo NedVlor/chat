@@ -78,7 +78,6 @@ formMainDOM.addEventListener('submit', (event) => {
 
  document.querySelector('.room-list').addEventListener('click', (event) => {
     log(event.target.name)
+    const room = event.target.name
+    socket.emit('set-room', room)
  })
-function setRoom(room) {
-    console.log(room)
-}

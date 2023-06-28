@@ -72,6 +72,14 @@ io.on('connection', (socket) => {
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
 
+    socket.join('sell');
+
+    socket.on('disconnect', () => {
+        //log('Користувач від’єднався, ID сокета: ' + socket.id);
+        delete connectedSockets[socket.id]; // Очищення сокета зі списку
+        changeConnections(socket)
+    });
+
     // При отриманні повідомлення з каналу "chanel1", вивести дані у консоль.
     socket.on('chanel1', (data) => {
         log(data);
@@ -85,21 +93,23 @@ io.on('connection', (socket) => {
     });
 
     socket.on('message', (message) => {
-        //log(message);
+        log(message);
         chatHistory.push( {
             message, 
             username: socket.username, 
             userID:   socket.id
         } );
-        socket.emit('refresh-chat-list', chatHistory )
-        socket.broadcast.emit('refresh-chat-list', chatHistory )
+        socket.to('sell').emit('refresh-chat-list', chatHistory )
+        //socket.emit('refresh-chat-list', chatHistory )/
+        //socket.broadcast.emit('refresh-chat-list', chatHistory )
         //log(chatHistory)
     });
 
-    socket.on('disconnect', () => {
-        //log('Користувач від’єднався, ID сокета: ' + socket.id);
-        delete connectedSockets[socket.id]; // Очищення сокета зі списку
-        changeConnections(socket)
-    });
+    socket.on('set-room',(room)=>{
+        log(room)
+        socket.join(room);
+    })
+
+
 
 });
