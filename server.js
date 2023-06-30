@@ -101,8 +101,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('set-room', (room) => {
-        log(room)
+        log(room);
+        socket.rooms.forEach(r => {
+            socket.leave(r);
+        });
         socket.join(room);
+        log('room',socket.rooms)
     })
 
 
