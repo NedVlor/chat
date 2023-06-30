@@ -60,10 +60,7 @@ function getConnectedUsers() {
 
 // for connection, disconnect  events
 function changeConnections(socket) {
-    //log('amount of users', getConnectedSockets().length)
-    socket.broadcast.emit('fresh-users-list', getConnectedUsers())
-    socket.emit('fresh-users-list', getConnectedUsers())
-    //log(getConnectedUsers())
+    io.emit('fresh-users-list', getConnectedUsers())
 }
 // Обробник події з'єднання нового клієнта через Socket.IO
 io.on('connection', (socket) => {
@@ -72,7 +69,7 @@ io.on('connection', (socket) => {
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
 
-    socket.join('sell');
+    //socket.join('sell');
 
     socket.on('disconnect', () => {
         //log('Користувач від’єднався, ID сокета: ' + socket.id);
@@ -94,18 +91,16 @@ io.on('connection', (socket) => {
 
     socket.on('message', (message) => {
         log(message);
-        chatHistory.push( {
-            message, 
-            username: socket.username, 
-            userID:   socket.id
-        } );
-        socket.to('sell').emit('refresh-chat-list', chatHistory )
-        //socket.emit('refresh-chat-list', chatHistory )/
-        //socket.broadcast.emit('refresh-chat-list', chatHistory )
-        //log(chatHistory)
+        chatHistory.push({
+            message,
+            username: socket.username,
+            userID: socket.id
+        });
+        // io.to('sell2').emit('refresh-chat-list', chatHistory )
+        io.emit('refresh-chat-list', chatHistory)
     });
 
-    socket.on('set-room',(room)=>{
+    socket.on('set-room', (room) => {
         log(room)
         socket.join(room);
     })
