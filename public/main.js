@@ -47,7 +47,7 @@ function clearDialog(){
 
 //refresh-chat-list
 socket.on('refresh-chat-list', (history) => {
-    console.log(history);
+    console.log('history:::', history);
     clearDialog();
     history.forEach((msg) => { // перебираючи історію повідомлень, наповнюєм цей блок повідомленнями
         dialogDOM.innerHTML += '<div class="message">' + msg.username + ' : ' + msg.message + '</div>';

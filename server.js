@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 const connectedSockets = {};
-const chatHistory = [];
+const chatHistory = {};
 
 // Функція для отримання списку підключених сокетів
 function getConnectedSockets() {
@@ -68,7 +68,13 @@ io.on('connection', (socket) => {
     socket.username = 'Anonymous';
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
+
+
     socket.join('main');
+    if (!chatHistory.main) chatHistory.main = []
+    io.to('main').emit('refresh-chat-list', chatHistory['main'])
+
+
 
     socket.on('disconnect', () => {
         //log('Користувач від’єднався, ID сокета: ' + socket.id);
@@ -90,12 +96,15 @@ io.on('connection', (socket) => {
 
     socket.on('message', (message) => {
         log(message);
-        chatHistory.push({
-            message,
-            username: socket.username,
-            userID: socket.id
+        socket.rooms.forEach(r => {
+            if (!chatHistory[r]) chatHistory[r] = [];
+            chatHistory[r].push({
+                message,
+                username: socket.username,
+                userID: socket.id
+            });
+            io.to(r).emit('refresh-chat-list', chatHistory[r])
         });
-        io.to('main').emit('refresh-chat-list', chatHistory )
         // io.emit('refresh-chat-list', chatHistory)
     });
 
@@ -105,8 +114,11 @@ io.on('connection', (socket) => {
             socket.leave(r);
         });
         socket.join(room);
-        log('room',socket.rooms)
-        io.to('main').emit('refresh-chat-list', chatHistory )
+        log('room', socket.rooms)
+        socket.rooms.forEach(r => {
+            if (!chatHistory[r]) chatHistory[r] = [];
+            io.to(r).emit('refresh-chat-list', chatHistory[r])
+        });
     })
 
 
