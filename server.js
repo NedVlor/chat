@@ -69,12 +69,9 @@ io.on('connection', (socket) => {
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
 
-
     socket.join('main');
     if (!chatHistory.main) chatHistory.main = []
     io.to('main').emit('refresh-chat-list', chatHistory['main'])
-
-
 
     socket.on('disconnect', () => {
         //log('Користувач від’єднався, ID сокета: ' + socket.id);
@@ -91,7 +88,7 @@ io.on('connection', (socket) => {
     socket.on('set-username', (username) => {
         //log(username);
         connectedSockets[socket.id].username = username;
-        socket.emit('fresh-users-list', getConnectedUsers())
+        io.emit('fresh-users-list', getConnectedUsers())
     });
 
     socket.on('message', (message) => {
@@ -120,7 +117,5 @@ io.on('connection', (socket) => {
             io.to(r).emit('refresh-chat-list', chatHistory[r])
         });
     })
-
-
 
 });
