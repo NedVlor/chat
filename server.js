@@ -68,8 +68,7 @@ io.on('connection', (socket) => {
     socket.username = 'Anonymous';
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}
     changeConnections(socket)
-
-    //socket.join('sell');
+    socket.join('main');
 
     socket.on('disconnect', () => {
         //log('Користувач від’єднався, ID сокета: ' + socket.id);
