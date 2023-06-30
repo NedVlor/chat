@@ -80,4 +80,11 @@ formMainDOM.addEventListener('submit', (event) => {
     log(event.target.name)
     const room = event.target.name
     socket.emit('set-room', room)
+
+    const buttons = document.querySelectorAll('.room-list .room') // []
+    buttons.forEach(button =>{
+        button.classList.remove('selected')
+    })
+
+    event.target.classList.add('selected')
  })

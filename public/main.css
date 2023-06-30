@@ -78,3 +78,6 @@ body {
 .form-start button {
     margin-left: 1rem;
 }
+.selected{
+    background: orange;
+}
