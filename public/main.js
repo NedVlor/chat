@@ -39,11 +39,16 @@ socket.on('fresh-users-list', (userList) => {
     // Ваш код для обробки даних тут
 });
 
+const dialogDOM = document.querySelector('.dialog'); // підєднуємось до блоку в яком виводим повідмлення
+
+function clearDialog(){
+    dialogDOM.innerHTML = ''; // очищуєм цей блок
+}
+
 //refresh-chat-list
 socket.on('refresh-chat-list', (history) => {
     console.log(history);
-    const dialogDOM = document.querySelector('.dialog'); // підєднуємось до блоку в яком виводим повідмлення
-    dialogDOM.innerHTML = ''; // очищуєм цей блок
+    clearDialog();
     history.forEach((msg) => { // перебираючи історію повідомлень, наповнюєм цей блок повідомленнями
         dialogDOM.innerHTML += '<div class="message">' + msg.username + ' : ' + msg.message + '</div>';
     })
@@ -80,11 +85,12 @@ formMainDOM.addEventListener('submit', (event) => {
     log(event.target.name)
     const room = event.target.name
     socket.emit('set-room', room)
-
+    //
     const buttons = document.querySelectorAll('.room-list .room') // []
     buttons.forEach(button =>{
         button.classList.remove('selected')
     })
-
     event.target.classList.add('selected')
+    //
+    clearDialog();
  })

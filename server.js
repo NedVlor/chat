@@ -95,8 +95,8 @@ io.on('connection', (socket) => {
             username: socket.username,
             userID: socket.id
         });
-        // io.to('sell2').emit('refresh-chat-list', chatHistory )
-        io.emit('refresh-chat-list', chatHistory)
+        io.to('main').emit('refresh-chat-list', chatHistory )
+        // io.emit('refresh-chat-list', chatHistory)
     });
 
     socket.on('set-room', (room) => {
@@ -106,6 +106,7 @@ io.on('connection', (socket) => {
         });
         socket.join(room);
         log('room',socket.rooms)
+        io.to('main').emit('refresh-chat-list', chatHistory )
     })
 
 
