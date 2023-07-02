@@ -25,7 +25,15 @@ socket.on('fresh-users-list', (userList) => {
     userListDOM.innerHTML = '';
     userList.forEach((user) => {
         console.log(user.username);
-        userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
+        //userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
+        const hostHTML = `<div class="host">${user.host}</div>`;
+        userListDOM.innerHTML += `
+            <div class="user">
+                <div class="username">${user.username}</div>
+                ${(user.host) ? hostHTML : ''}
+            </div>
+        `;
+
     })
     // check if the user Anonimous or not and unblock UI
     console.log(socket.id)
