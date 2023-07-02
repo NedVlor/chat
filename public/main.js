@@ -18,23 +18,26 @@ socket.on('chanel1', (data) => {
     console.log(data);
     // Ваш код для обробки даних тут
 });
+let userListGlobal=[]
 socket.on('fresh-users-list', (userList) => {
     console.log(userList);
+    userListGlobal=userList;
     const userListDOM = document.querySelector('.user-list');
     console.log(userListDOM);
     userListDOM.innerHTML = '';
-    userList.forEach((user) => {
+    userList.forEach((user,i) => {
         console.log(user.username);
         //userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
-        const hostHTML = `<div class="host">${user.host}</div>`;
+        const hostHTML = `<div class="host" name="${i}">${user.host}</div>`;
         userListDOM.innerHTML += `
-            <div class="user">
-                <div class="username">${user.username}</div>
+            <div class="user" name="${i}">
+                <div name="${i}" class="username">${user.username}</div>
                 ${(user.host) ? hostHTML : ''}
             </div>
         `;
 
-    })
+    });
+    connectUsersListeners();
     // check if the user Anonimous or not and unblock UI
     console.log(socket.id)
     const myself = userList.find(u => u.id === socket.id)
@@ -102,3 +105,32 @@ formMainDOM.addEventListener('submit', (event) => {
     //
     clearDialog();
  })
+
+function copyToBufer(i) {
+    console.log( i, userListGlobal)
+  // Get the text field
+  var copyText = userListGlobal[i].host;
+
+  // Select the text field
+  //copyText.select();
+  //copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText);
+
+  // Alert the copied text
+  //alert("Copied the text: " + copyText);
+}
+
+function connectUsersListeners(){
+ const allUsersDOM = document.querySelectorAll('.user-list .user');
+ allUsersDOM.forEach((userDOM) => {
+    userDOM.addEventListener('click', (event) => {
+    log('click', event.target.getAttribute("name"))
+    const userIndex = event.target.getAttribute("name")
+    copyToBufer(userIndex)
+ })
+})
+ }
+
+
