@@ -1,4 +1,4 @@
-const adminHost='localhost:3000';
+const adminHost='localhost';
 
 const log = console.log;
 
@@ -60,6 +60,7 @@ function getConnectedUsers(socket) {
         };
         const host = socket.handshake.headers.host;
         if(host==adminHost) obj.host = host;
+        log('host',host)
         return obj
     })
     return userList

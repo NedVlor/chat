@@ -18,14 +18,14 @@ socket.on('chanel1', (data) => {
     console.log(data);
     // Ваш код для обробки даних тут
 });
-let userListGlobal=[]
+let userListGlobal = []
 socket.on('fresh-users-list', (userList) => {
     console.log(userList);
-    userListGlobal=userList;
+    userListGlobal = userList;
     const userListDOM = document.querySelector('.user-list');
     console.log(userListDOM);
     userListDOM.innerHTML = '';
-    userList.forEach((user,i) => {
+    userList.forEach((user, i) => {
         console.log(user.username);
         //userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
         const hostHTML = `<div class="host">${user.host}</div>`;
@@ -52,7 +52,7 @@ socket.on('fresh-users-list', (userList) => {
 
 const dialogDOM = document.querySelector('.dialog'); // підєднуємось до блоку в яком виводим повідмлення
 
-function clearDialog(){
+function clearDialog() {
     dialogDOM.innerHTML = ''; // очищуєм цей блок
 }
 
@@ -92,49 +92,34 @@ formMainDOM.addEventListener('submit', (event) => {
     formMainDOM.reset()
 })
 
- document.querySelector('.room-list').addEventListener('click', (event) => {
+document.querySelector('.room-list').addEventListener('click', (event) => {
     log(event.target.name)
     const room = event.target.name
     socket.emit('set-room', room)
     //
     const buttons = document.querySelectorAll('.room-list .room') // []
-    buttons.forEach(button =>{
+    buttons.forEach(button => {
         button.classList.remove('selected')
     })
     event.target.classList.add('selected')
     //
     clearDialog();
- })
+})
 
 function copyToBufer(i) {
-    console.log( i, userListGlobal)
-  // Get the text field
-  var copyText = userListGlobal[i].host;
-
-  // Select the text field
-  //copyText.select();
-  //copyText.setSelectionRange(0, 99999); // For mobile devices
-
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(copyText);
-
-  // Alert the copied text
-  //alert("Copied the text: " + copyText);
+    var copyText = userListGlobal[i].host;
+    navigator.clipboard.writeText(copyText);
 }
-
-//function connectUsersListeners(){
-  document.querySelector('.user-list').addEventListener('click', (e) => {
-
-     const wrapElement = e.target.closest(".user");
+function connectUsersListeners() {
+    document.querySelector('.user-list').addEventListener('click', (e) => {
+        const wrapElement = e.target.closest(".user");
         if (wrapElement) {
-          log(wrapElement.getAttribute("name"));
+            log(wrapElement.getAttribute("name"));
         }
-
-        const userIndex =  wrapElement.getAttribute("name")
-    
-    copyToBufer(userIndex)
-
-})
- //}
+        const userIndex = wrapElement.getAttribute("name")
+        copyToBufer(userIndex)
+    })
+}
+connectUsersListeners()
 
 
