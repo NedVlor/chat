@@ -28,16 +28,16 @@ socket.on('fresh-users-list', (userList) => {
     userList.forEach((user,i) => {
         console.log(user.username);
         //userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
-        const hostHTML = `<div class="host" name="${i}">${user.host}</div>`;
+        const hostHTML = `<div class="host">${user.host}</div>`;
         userListDOM.innerHTML += `
             <div class="user" name="${i}">
-                <div name="${i}" class="username">${user.username}</div>
+                <div  class="username">${user.username}</div>
                 ${(user.host) ? hostHTML : ''}
             </div>
         `;
 
     });
-    connectUsersListeners();
+    // connectUsersListeners();
     // check if the user Anonimous or not and unblock UI
     console.log(socket.id)
     const myself = userList.find(u => u.id === socket.id)
@@ -122,15 +122,19 @@ function copyToBufer(i) {
   //alert("Copied the text: " + copyText);
 }
 
-function connectUsersListeners(){
- const allUsersDOM = document.querySelectorAll('.user-list .user');
- allUsersDOM.forEach((userDOM) => {
-    userDOM.addEventListener('click', (event) => {
-    log('click', event.target.getAttribute("name"))
-    const userIndex = event.target.getAttribute("name")
+//function connectUsersListeners(){
+  document.querySelector('.user-list').addEventListener('click', (e) => {
+
+     const wrapElement = e.target.closest(".user");
+        if (wrapElement) {
+          log(wrapElement.getAttribute("name"));
+        }
+
+        const userIndex =  wrapElement.getAttribute("name")
+    
     copyToBufer(userIndex)
- })
+
 })
- }
+ //}
 
 
