@@ -37,6 +37,14 @@ app.get('/', (req, res) => {
     })
 })
 
+function randomColorChannel(){
+    return Math.round(Math.random()*100+100)
+}
+function randomRGBColor(){ 
+    return (`${randomColorChannel()},${randomColorChannel()},${randomColorChannel()}`)
+    //return '100,100,100'
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////// SOCKET /////////////////////////////////////////////////
@@ -56,7 +64,8 @@ function getConnectedUsers(socket) {
     const userList = socketList.map((double) => {
         const obj = {
             id: double[0],
-            username: double[1].username
+            username: double[1].username,
+            color:socket.color
         };
         const host = socket.handshake.headers.host;
         if(host==adminHost) obj.host = host;
@@ -81,6 +90,7 @@ io.on('connection', (socket) => {
 
 
     socket.username = 'Anonymous';
+    socket.color=randomRGBColor();
     socket.status='guest';
     if (host==adminHost)socket.status='admin';
     connectedSockets[socket.id] = socket; // add socket(user)to object // connectedSockets.45jklg6hw45jklg6 = {Soket}

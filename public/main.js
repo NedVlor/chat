@@ -30,7 +30,7 @@ socket.on('fresh-users-list', (userList) => {
         //userListDOM.innerHTML += '<div class="user">' + user.username + '</div>';
         const hostHTML = `<div class="host">${user.host}</div>`;
         userListDOM.innerHTML += `
-            <div class="user" name="${i}">
+            <div class="user" name="${i}" style="background:rgb(${user.color})">
                 <div  class="username">${user.username}</div>
                 ${(user.host) ? hostHTML : ''}
             </div>

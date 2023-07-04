@@ -21,7 +21,7 @@ body {
 
 .user {
     background: black;
-    color: grey;
+    color: rgb(0, 0, 0);
     margin-top: .5rem;
     border-radius: .5rem;
     padding: .5rem;
