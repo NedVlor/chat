@@ -65,7 +65,7 @@ function getConnectedUsers(socket) {
         const obj = {
             id: double[0],
             username: double[1].username,
-            color:socket.color
+            color: double[1].color
         };
         const host = socket.handshake.headers.host;
         if(host==adminHost) obj.host = host;

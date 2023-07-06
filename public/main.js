@@ -18,7 +18,9 @@ socket.on('chanel1', (data) => {
     console.log(data);
     // Ваш код для обробки даних тут
 });
+
 let userListGlobal = []
+
 socket.on('fresh-users-list', (userList) => {
     console.log(userList);
     userListGlobal = userList;
@@ -61,7 +63,17 @@ socket.on('refresh-chat-list', (history) => {
     console.log('history:::', history);
     clearDialog();
     history.forEach((msg) => { // перебираючи історію повідомлень, наповнюєм цей блок повідомленнями
-        dialogDOM.innerHTML += '<div class="message">' + msg.username + ' : ' + msg.message + '</div>';
+
+        // find user for get color
+
+        const user = userListGlobal.find(u=>u.username==msg.username)
+
+        log('debug:',  user)
+
+        //const color = '12, 12, 12 '
+        const color= user ? user.color : '12, 12, 12 ';
+
+        dialogDOM.innerHTML += `<div style="color:rgb(${color})" class="message">  ${msg.username}  :  ${msg.message}</div>`;
     })
 });
 
